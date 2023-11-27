@@ -1,0 +1,91 @@
+
+
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{setspace}
+\usepackage{ mathrsfs }
+\usepackage{amssymb} %maths
+\usepackage{amsmath} %maths
+\usepackage[margin=0.2in]{geometry}
+\usepackage{graphicx}
+\usepackage{ulem}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{10pt}
+\usepackage{hyperref}
+\usepackage[autostyle]{csquotes}
+
+\usepackage{cancel}
+\renewcommand{\i}{\textit}
+\renewcommand{\b}{\textbf}
+\newcommand{\q}{\enquote}
+%\vskip1.0in
+
+
+
+\begin{document}
+
+\begin{huge}
+
+
+
+{\setstretch{0.0}{
+
+\b{Pre} is a symmetric cryptosystem based primarily on prefix (instantaneous) codes. It's best explained through symbol examples, and this program exists primarily to demonstrate the system.
+
+First a key is printed, and then several words are encoded and decoded, with each step of the process shown. 
+
+For instance, here's the first piece of a key, which defines its zeroth mode. 
+
+\begin{verbatim}
+
+
+0
+|||O       O|         4         
+OO         |O|O       0         
+||O|O      ||OO       1         
+O          ||O|       2         
+|          |OO        3  
+\end{verbatim}
+
+The top line includes just a $0$, which is simply the number of the state. The rest is the actual definition. 
+
+Each line should be read as \b{finds puts goes}.  So the first column represents \b{finds}, and it is what the mode searches for as a prefix in the plaintext. The entries are checked for from the top to the bottom, so that the mode tends to consume as many symbols as possible. The prefix is consumed and the entry to its right is added to the output string. Finally the last entry in that same row is the new state or mode of the machine. Here's the encoding of a short string. 
+\begin{verbatim}
+
+encode
+|||||O
+|OOOOOOO|
+0     3      0      
+|     |      |||O   
+|OO   OOOO   O|     
+
+\end{verbatim}
+
+First the task and the result are given. The first line is the task. The second line is the plain text. And the third line is the resulting cipher text. Then the next three lines show the coding process in detail. 
+
+We see that the machine starts in mode 0, found a I, and wrote a IOO, then going to state 3. Then it finds I, writes OOOO, and goes back to state O. Finally it finds IIIO and writes a OI.  Its plaintext is consumed, so the machine halts. 
+
+Here's the decoding:
+
+\begin{verbatim}
+
+decode
+|OOOOOOO|
+|||||O
+0     3      0      
+|OO   OOOO   O|     
+|     |      |||O  
+   
+
+\end{verbatim}
+
+Decoding makes use of the fact that modes write prefix codes. Because the machine knows that encoding was started in mode 0, it can deduce that it should consume exactly the symbols IOO. Then the machine deduces that the encoder must have found a I in the original plaintext and went into mode 3. And so on. 
+
+I've included several text files of such examples that use more symbols, etc. 
+
+Note that a more serious (secure) version would use multiple rounds and more complicated keys. But this system was primarily created as a work of art -- as a kind of mathematical sculpture. 
+
+
+}}
+\end{huge}
+\end{document}
